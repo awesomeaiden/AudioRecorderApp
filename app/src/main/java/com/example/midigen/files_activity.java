@@ -12,26 +12,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class files_activity extends AppCompatActivity {
 
-    TextView pathshow;
-    Button btn_filepick;
-    Button btn_startplay;
-    Button btn_stopplay;
-    MediaPlayer mediaPlayer;
-    String filepath;
-    String filepathplay;
-    String relpath;
+    private TextView pathshow;
+    private Button btn_startplay;
+    private Button btn_stopplay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_files_activity);
-        getSupportActionBar().setTitle("Media Player");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Media Player");
 
         pathshow = findViewById(R.id.filepath);
-        btn_filepick = findViewById(R.id.btn_filepick);
         btn_startplay = findViewById(R.id.btn_startplay);
         btn_stopplay = findViewById(R.id.btn_stopplay);
         btn_startplay.setEnabled(false);
@@ -47,7 +42,7 @@ public class files_activity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if ((requestCode == 10) && (resultCode == RESULT_OK)){
-            filepath = data.getData().getPath();
+            String filepath = Objects.requireNonNull(Objects.requireNonNull(data).getData()).getPath();
             pathshow.setText(filepath);
             btn_startplay.setEnabled(true);
         }
@@ -58,11 +53,11 @@ public class files_activity extends AppCompatActivity {
         btn_startplay.setEnabled(false);
 
         final MediaPlayer mediaPlayer = new MediaPlayer();
-        relpath = pathshow.getText().toString();
+        String relpath = pathshow.getText().toString();
 
         if (relpath.length() > 53) {
             try{
-                filepathplay = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Download/" + (relpath.substring(relpath.length() -53));
+                String filepathplay = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Download/" + (relpath.substring(relpath.length() - 53));
                 mediaPlayer.setDataSource(filepathplay);
                 mediaPlayer.prepare();
                 mediaPlayer.start();
@@ -81,10 +76,8 @@ public class files_activity extends AppCompatActivity {
             public void onClick(View v) {
                 btn_startplay.setEnabled(true);
                 btn_stopplay.setEnabled(false);
-                if (mediaPlayer != null) {
-                    mediaPlayer.stop();
-                    mediaPlayer.release();
-                }
+                mediaPlayer.stop();
+                mediaPlayer.release();
             }
         });
     }

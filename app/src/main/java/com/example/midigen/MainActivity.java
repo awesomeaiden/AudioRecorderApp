@@ -19,13 +19,12 @@ import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button buttonstart;
-    Button buttonstop;
-    public String pathSave = "";
-    MediaRecorder mediaRecorder;
-    public int filePreference;
+    private Button buttonstart;
+    private Button buttonstop;
+    private String pathSave = "";
+    private MediaRecorder mediaRecorder;
 
-    final int REQUEST_PERMISSION_CODE = 1000;
+    private final int REQUEST_PERMISSION_CODE = 1000;
 
     public void onClickFiles(View view) {
         Intent goToFiles = new Intent(getBaseContext(), files_activity.class);
@@ -84,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         mediaRecorder = new MediaRecorder();
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         // Get file preference
-        filePreference = getIntent().getIntExtra("filePreference", 0);
+        int filePreference = getIntent().getIntExtra("filePreference", 0);
         switch (filePreference) {
             case 0:
                 mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
